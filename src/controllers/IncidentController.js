@@ -89,7 +89,7 @@ module.exports = {
 			try {
 				existsOrError(deleted, "Caso não encontrado");
 				try {
-					const path = "./uploads/incidents/" + inicident.image;
+					const path = "./public/uploads/incidents/" + inicident.image;
 					try {
 						fs.unlinkSync(path);
 						return response.json({ message: "Sucesso" });
