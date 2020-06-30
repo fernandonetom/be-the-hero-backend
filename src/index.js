@@ -6,7 +6,10 @@ const { request } = require("express");
 path = require("path");
 const app = express();
 
-app.use(cors());
+var corsOptions = {
+	origin: "*",
+};
+app.use(cors(corsOptions));
 app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
