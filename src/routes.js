@@ -19,6 +19,7 @@ routes.post(
 	multer(multerConfig).single("image"),
 	OngController.create
 );
+routes.delete("/ongs/:id", OngController.delete);
 
 routes.get("/profile", ProfileController.index);
 

@@ -13,10 +13,10 @@ module.exports = {
 				.select("*");
 
 			try {
-				existsOrError(incidents, "Nenhuma ONG encontrada");
+				existsOrError(incidents, "Nenhum caso encontrado");
 				return response.json(incidents);
 			} catch (message) {
-				return response.status(404).json({ message });
+				return response.status(204).json({ message });
 			}
 		} catch (message) {
 			return response.status(400).json({ message });

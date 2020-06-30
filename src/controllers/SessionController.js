@@ -11,7 +11,7 @@ module.exports = {
 			existsOrError(ong, "ONG não encontrada");
 			return response.json(ong);
 		} catch (message) {
-			return response.status(400).json({ message });
+			return response.json({ message });
 		}
 	},
 };

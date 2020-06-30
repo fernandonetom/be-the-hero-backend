@@ -54,9 +54,15 @@ module.exports = {
 			})
 			.returning("id")
 			.then(([id]) => response.status(200).json({ id }))
-			.catch((error) =>
-				response.status(500).json({ error: "Tente novamente mais tarde" })
-			);
+			.catch((error) => {
+				const path = "./public/uploads/incidents/" + image;
+				try {
+					fs.unlinkSync(path);
+					response.status(500).json({ error: message });
+				} catch (error) {
+					response.status(500).json({ error: message }); //Não deletou a imagm
+				}
+			});
 	},
 	async delete(request, response) {
 		const { id } = request.params;
