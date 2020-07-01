@@ -14,6 +14,7 @@ const SessionController = require("./controllers/SessionController");
 routes.post("/sessions", SessionController.create);
 
 routes.get("/ongs", OngController.index);
+routes.get("/ongs/:id", OngController.getById);
 routes.post(
 	"/ongs",
 	multer(multerConfig).single("image"),

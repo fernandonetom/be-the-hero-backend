@@ -14,6 +14,26 @@ module.exports = {
 			response.status(404).json(message);
 		}
 	},
+	async getById(request, response) {
+		const { id } = request.params;
+		try {
+			existsOrError(id, "ONG não informada");
+
+			const ongData = await connection("ongs")
+				.where({ id: id })
+				.select("*")
+				.first();
+
+			try {
+				existsOrError(ongData, "Nenhuma ong encontrada");
+				return response.json(ongData);
+			} catch (message) {
+				return response.status(204).json({ message });
+			}
+		} catch (message) {
+			return response.status(400).json({ message });
+		}
+	},
 	async create(request, response) {
 		console.log(request.file);
 		const { name, email, whatsapp, city, uf } = request.body;
