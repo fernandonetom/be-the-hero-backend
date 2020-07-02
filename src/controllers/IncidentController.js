@@ -22,6 +22,7 @@ module.exports = {
 				"ongs.city",
 				"ongs.uf",
 			])
+			.orderBy("incidents.id", "desc")
 			.catch((error) =>
 				response.status(500).json({ error: "Não foi possível listar os casos" })
 			);

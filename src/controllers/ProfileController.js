@@ -10,7 +10,8 @@ module.exports = {
 
 			const incidents = await connection("incidents")
 				.where({ ong_id: ongId })
-				.select("*");
+				.select("*")
+				.orderBy("id", "desc");
 
 			try {
 				existsOrError(incidents, "Nenhum caso encontrado");
