@@ -18,6 +18,7 @@ const app = express();
 
 var corsOptions = {
 	origin: "*",
+	exposedHeaders: "X-Total-Count",
 };
 app.use(cors(corsOptions));
 app.use("/public", express.static(path.join(__dirname, "../public")));

@@ -7,7 +7,7 @@ const { existsOrError } = require("./Validation");
 module.exports = {
 	async index(request, response) {
 		const { page = 1 } = request.query;
-		const incidentsLimit = 5;
+		const incidentsLimit = 6;
 
 		const [count] = await connection("incidents").count();
 
