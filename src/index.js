@@ -2,7 +2,12 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const routes = require("./routes");
-const { request } = require("express");
+var getRawBody = require("raw-body");
+const {
+	ongUploadVerify,
+	ongUploadStarter,
+} = require("./config/ongImageUpload");
+const OngController = require("./controllers/OngController");
 path = require("path");
 const app = express();
 
@@ -14,6 +19,9 @@ app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+
+app.post("/ongs", ongUploadVerify, ongUploadStarter, OngController.create);
+
 app.use(routes);
 
 app.listen(process.env.PORT, () => {

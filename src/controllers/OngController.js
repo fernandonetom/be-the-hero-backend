@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const connection = require("../database/connection");
 const fs = require("fs");
-
+const { deleteFile } = require("../config/googleStorage");
 const { existsOrError } = require("./Validation");
 
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
 		const { name, email, whatsapp, city, uf } = request.body;
 		const id = crypto.randomBytes(4).toString("HEX");
 
-		const image = request.file.filename;
+		const image = request.body.imageName;
 		connection("ongs")
 			.insert({
 				id,
@@ -52,13 +52,8 @@ module.exports = {
 			})
 			.then(() => response.json({ id }))
 			.catch((error) => {
-				const path = "./public/uploads/ongs/" + image;
-				try {
-					fs.unlinkSync(path);
-					response.json({ error: error.message });
-				} catch (error) {
-					response.json({ error: error.message }); //Não deletou a imagm
-				}
+				deleteFile(image);
+				response.json({ error: error.message });
 			});
 	},
 	async delete(request, response) {
@@ -84,13 +79,9 @@ module.exports = {
 			try {
 				existsOrError(deleted, "ONG não encontrada");
 				try {
-					const path = "./public/uploads/ongs/" + ongData.image;
-					try {
-						fs.unlinkSync(path);
-						return response.json({ message: "Sucesso" });
-					} catch (error) {
-						return response.json({ message: "Sucesso" }); //Não deletou a imagm
-					}
+					const filename = ongData.image;
+					deleteFile(filename);
+					return response.json({ message: "Sucesso" });
 				} catch (error) {
 					response.status(500).json({ error: "Tente novamente mais tarde" });
 				}

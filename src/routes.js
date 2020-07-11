@@ -1,6 +1,12 @@
 const express = require("express");
 const crypto = require("crypto");
 const routes = express.Router();
+
+/* GCLOUD CONFIG UPLOAD */
+// const {
+// 	ongUploadVerify,
+// 	ongUploadStarter,
+// } = require("./config/ongImageUpload");
 const multer = require("multer");
 const multerConfig = require("./config/multer");
 const multerIncidents = require("./config/multerIncidents");
@@ -15,11 +21,7 @@ routes.post("/sessions", SessionController.create);
 
 routes.get("/ongs", OngController.index);
 routes.get("/ongs/:id", OngController.getById);
-routes.post(
-	"/ongs",
-	multer(multerConfig).single("image"),
-	OngController.create
-);
+// routes.post(ongUploadVerify, ongUploadStarter, OngController.create);
 routes.delete("/ongs/:id", OngController.delete);
 
 routes.get("/profile", ProfileController.index);
