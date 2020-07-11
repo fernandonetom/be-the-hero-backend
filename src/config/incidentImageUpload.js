@@ -5,7 +5,7 @@ const path = require("path");
 const os = require("os");
 const fs = require("fs");
 
-const ongUploadVerify = (req, res, next) => {
+const incidentUploadVerify = (req, res, next) => {
 	if (
 		req.rawBody === undefined &&
 		req.method === "POST" &&
@@ -28,7 +28,7 @@ const ongUploadVerify = (req, res, next) => {
 	}
 };
 
-const ongUploadStarter = (req, res, next) => {
+const incidentUploadStarter = (req, res, next) => {
 	if (
 		req.method === "POST" &&
 		req.headers["content-type"].startsWith("multipart/form-data")
@@ -51,7 +51,7 @@ const ongUploadStarter = (req, res, next) => {
 			const allowedExtensions = ["png", "jpg", "gif", "jpeg"];
 
 			if (allowedExtensions.includes(extension)) {
-				const imageFileName = `ong-${Date.now()}-${filename}`;
+				const imageFileName = `incident-${Date.now()}-${filename}`;
 				const filePath = path.join(os.tmpdir(), imageFileName);
 				imageToBeUploaded = {
 					filePath,
@@ -97,4 +97,4 @@ const ongUploadStarter = (req, res, next) => {
 	}
 };
 
-module.exports = { ongUploadVerify, ongUploadStarter };
+module.exports = { incidentUploadVerify, incidentUploadStarter };

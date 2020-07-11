@@ -1,5 +1,6 @@
 const connection = require("../database/connection");
 const validation = require("./Validation");
+const { deleteFile } = require("../config/googleStorage");
 const fs = require("fs");
 
 const { existsOrError } = require("./Validation");
@@ -37,13 +38,13 @@ module.exports = {
 				response.status(400).json({ message });
 			}
 		} catch (message) {
-			response.status(400).json({ message });
+			response.status(200).json({ message });
 		}
 	},
 	create(request, response) {
 		const { title, description, value } = request.body;
 		const ongId = request.headers.authorization;
-		const image = request.file.filename;
+		const image = request.body.imageName;
 
 		connection("incidents")
 			.insert({
@@ -56,13 +57,8 @@ module.exports = {
 			.returning("id")
 			.then(([id]) => response.status(200).json({ id }))
 			.catch((error) => {
-				const path = "./public/uploads/incidents/" + image;
-				try {
-					fs.unlinkSync(path);
-					response.status(500).json({ error: message });
-				} catch (error) {
-					response.status(500).json({ error: message }); //Não deletou a imagm
-				}
+				deleteFile(image);
+				response.json({ error: error.message });
 			});
 	},
 	async delete(request, response) {
@@ -96,13 +92,9 @@ module.exports = {
 			try {
 				existsOrError(deleted, "Caso não encontrado");
 				try {
-					const path = "./public/uploads/incidents/" + inicident.image;
-					try {
-						fs.unlinkSync(path);
-						return response.json({ message: "Sucesso" });
-					} catch (error) {
-						return response.json({ message: "Sucesso" }); //Não deletou a imagm
-					}
+					const filename = inicident.image;
+					deleteFile(filename);
+					return response.json({ message: "Sucesso" });
 				} catch (error) {
 					response.status(500).json({ error: "Tente novamente mais tarde" });
 				}

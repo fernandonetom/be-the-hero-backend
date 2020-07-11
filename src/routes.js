@@ -27,11 +27,11 @@ routes.delete("/ongs/:id", OngController.delete);
 routes.get("/profile", ProfileController.index);
 
 routes.get("/incidents", IncidentController.index);
-routes.post(
-	"/incidents",
-	multer(multerIncidents).single("image"),
-	IncidentController.create
-);
+// routes.post(
+// 	"/incidents",
+// 	multer(multerIncidents).single("image"),
+// 	IncidentController.create
+// );
 routes.delete("/incidents/:id", IncidentController.delete);
 
 module.exports = routes;
