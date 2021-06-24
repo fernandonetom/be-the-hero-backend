@@ -1,0 +1,11 @@
+---
+application:
+  name: "be-the-hero-backend"
+  project: "meu-projeto-teste065"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-be-the-hero-backend"
+  routes:
+  - application_name: "be-the-hero-backend"
+    paths:
+    - "/*"
